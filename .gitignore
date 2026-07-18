@@ -1,0 +1,69 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+
+# SQLite Database
+*.db
+*.sqlite3
+
+# Flask
+instance/
+.flaskenv
+
+# Logs
+*.log
+
+# Python Cache
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Build Files
+build/
+dist/
+*.egg-info/
+
+# Temporary Files
+*.tmp
+*.temp
+
+# Generated QR Codes (if stored locally)
+generated_qr/
+
+# Uploaded Files (if any)
+uploads/
+
+# AI Chat History (if stored locally)
+chat_history/
+
+# Notes Backup (if generated)
+notes_backup/
+
+# Secrets
+secrets.json
+credentials.json
+config.py
+
+# PythonAnywhere
+*.pid
