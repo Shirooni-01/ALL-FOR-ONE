@@ -1,67 +1,115 @@
-from flask import render_template, request, session, redirect, url_for, flash
+from flask import render_template, request, session, redirect, url_for, flash, g, current_app
 from datetime import datetime
-import json
-import os
-
-# Load all notes from JSON
-def load_all_notes():
-    try:
-        with open("notes.json", "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
+import sqlite3
 
 
-def save_all_notes(all_notes):
-    with open("notes.json", "w") as f:
-        json.dump(all_notes, f, indent=4)
+def get_db():
+    """Get database connection"""
+    if "db" not in g:
+        conn = sqlite3.connect(current_app.config["DATABASE"])
+        conn.row_factory = sqlite3.Row
+        g.db = conn
+    return g.db
+
+
+def init_notes_db():
+    """Create notes table if it doesn't exist"""
+    db = get_db()
+    db.execute(
+        """
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            note TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+        """
+    )
+    db.commit()
 
 
 def get_user_notes(user_id):
-    """Get only notes belonging to a specific user"""
-    all_notes = load_all_notes()
-    return [note for note in all_notes if note.get("user_id") == user_id]
+    """Get all notes for a specific user"""
+    db = get_db()
+    notes = db.execute(
+        """
+        SELECT id, title, note, 
+               strftime('%d %b %Y, %I:%M %p', updated_at) as time
+        FROM notes 
+        WHERE user_id = ? 
+        ORDER BY updated_at DESC
+        """,
+        (user_id,)
+    ).fetchall()
+    return [dict(note) for note in notes]
 
 
-def save_user_note(user_id, title, note_text):
-    """Save a new note with user_id"""
-    all_notes = load_all_notes()
-    all_notes.append({
-        "user_id": user_id,
-        "title": title,
-        "note": note_text,
-        "time": datetime.now().strftime("%d %b %Y, %I:%M %p"),
-    })
-    save_all_notes(all_notes)
+def add_note(user_id, title, note_text):
+    """Add a new note"""
+    db = get_db()
+    db.execute(
+        """
+        INSERT INTO notes (user_id, title, note) 
+        VALUES (?, ?, ?)
+        """,
+        (user_id, title, note_text)
+    )
+    db.commit()
 
 
-def update_user_note(user_id, index, editednote, editedtitle):
-    """Update a note belonging to user"""
-    all_notes = load_all_notes()
-    user_notes_indices = [i for i, n in enumerate(all_notes) if n.get("user_id") == user_id]
+def update_note(user_id, note_id, title=None, note_text=None):
+    """Update a note"""
+    db = get_db()
     
-    if index < len(user_notes_indices):
-        actual_index = user_notes_indices[index]
-        if editednote:
-            all_notes[actual_index]["note"] = editednote
-        if editedtitle:
-            all_notes[actual_index]["title"] = editedtitle
-        all_notes[actual_index]["time"] = datetime.now().strftime("%d %b %Y, %I:%M %p")
-        save_all_notes(all_notes)
-
-
-def delete_user_note(user_id, index):
-    """Delete a note belonging to user"""
-    all_notes = load_all_notes()
-    user_notes_indices = [i for i, n in enumerate(all_notes) if n.get("user_id") == user_id]
+    # Verify note belongs to user
+    note = db.execute(
+        "SELECT id FROM notes WHERE id = ? AND user_id = ?",
+        (note_id, user_id)
+    ).fetchone()
     
-    if index < len(user_notes_indices):
-        actual_index = user_notes_indices[index]
-        all_notes.pop(actual_index)
-        save_all_notes(all_notes)
+    if not note:
+        return False
+    
+    if title:
+        db.execute(
+            "UPDATE notes SET title = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            (title, note_id)
+        )
+    if note_text:
+        db.execute(
+            "UPDATE notes SET note = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            (note_text, note_id)
+        )
+    
+    db.commit()
+    return True
+
+
+def delete_note(user_id, note_id):
+    """Delete a note"""
+    db = get_db()
+    
+    # Verify note belongs to user before deleting
+    note = db.execute(
+        "SELECT id FROM notes WHERE id = ? AND user_id = ?",
+        (note_id, user_id)
+    ).fetchone()
+    
+    if not note:
+        return False
+    
+    db.execute("DELETE FROM notes WHERE id = ?", (note_id,))
+    db.commit()
+    return True
 
 
 def init_notes(app):
+    # Initialize database on app startup
+    with app.app_context():
+        init_notes_db()
 
     @app.route("/notes", methods=["GET", "POST"])
     def notes_page():
@@ -74,29 +122,32 @@ def init_notes(app):
         notes = get_user_notes(user_id)
 
         if request.method == "POST":
-
             title = request.form.get("title")
             note_text = request.form.get("note")
-            index = request.form.get("index")
-            index_del = request.form.get("index_del")
+            note_id = request.form.get("index")
+            note_id_del = request.form.get("index_del")
             editednote = request.form.get("editednote")
             editedtitle = request.form.get("editedtitle")
             search = request.form.get("search")
 
             searchednote = None
 
+            # Add new note
             if title and note_text:
-                save_user_note(user_id, title, note_text)
+                add_note(user_id, title, note_text)
                 notes = get_user_notes(user_id)
 
-            if index is not None and (editednote or editedtitle):
-                update_user_note(user_id, int(index), editednote, editedtitle)
+            # Update note
+            if note_id is not None and (editednote or editedtitle):
+                update_note(user_id, int(note_id), editedtitle, editednote)
                 notes = get_user_notes(user_id)
 
-            if index_del is not None and request.form.get("delete") == "Delete":
-                delete_user_note(user_id, int(index_del))
+            # Delete note
+            if note_id_del is not None and request.form.get("delete") == "Delete":
+                delete_note(user_id, int(note_id_del))
                 notes = get_user_notes(user_id)
 
+            # Search notes
             if search:
                 for note in notes:
                     if search.lower().strip() == note["title"].lower().strip():

@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, g, current_app
 import secrets
 import string
-import json
+import sqlite3
 from datetime import datetime
 
 # Character pools
@@ -20,40 +20,60 @@ syllables = [
     "ta", "te", "ti", "to", "tu"
 ]
 
-PASSWORD_HISTORY_FILE = "password_history.json"
+
+def get_db():
+    """Get database connection"""
+    if "db" not in g:
+        conn = sqlite3.connect(current_app.config["DATABASE"])
+        conn.row_factory = sqlite3.Row
+        g.db = conn
+    return g.db
 
 
-def load_all_history():
-    """Load all password history from JSON"""
-    try:
-        with open(PASSWORD_HISTORY_FILE, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-
-
-def save_all_history(all_history):
-    """Save all password history to JSON"""
-    with open(PASSWORD_HISTORY_FILE, "w") as f:
-        json.dump(all_history, f, indent=4)
+def init_password_db():
+    """Create password history table"""
+    db = get_db()
+    db.execute(
+        """
+        CREATE TABLE IF NOT EXISTS password_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            password TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+        """
+    )
+    db.commit()
 
 
 def get_user_history(user_id):
-    """Get password history for specific user"""
-    all_history = load_all_history()
-    user_history = [p for p in all_history if p.get("user_id") == user_id]
-    return user_history[:20]  # Return last 20
+    """Get password history for specific user (last 20)"""
+    db = get_db()
+    history = db.execute(
+        """
+        SELECT password, strftime('%d %b %Y, %I:%M %p', created_at) as timestamp
+        FROM password_history 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC 
+        LIMIT 20
+        """,
+        (user_id,)
+    ).fetchall()
+    return [dict(h) for h in history]
 
 
 def add_to_history(user_id, password):
     """Add password to user's history"""
-    all_history = load_all_history()
-    all_history.insert(0, {
-        "user_id": user_id,
-        "password": password,
-        "timestamp": datetime.now().strftime("%d %b %Y, %I:%M %p")
-    })
-    save_all_history(all_history)
+    db = get_db()
+    db.execute(
+        """
+        INSERT INTO password_history (user_id, password) 
+        VALUES (?, ?)
+        """,
+        (user_id, password)
+    )
+    db.commit()
 
 
 def generate_random_password():
@@ -123,6 +143,9 @@ def password_strength(password):
 
 
 def init_password(app):
+    # Initialize database on app startup
+    with app.app_context():
+        init_password_db()
 
     @app.route("/password", methods=["GET", "POST"])
     def password():
