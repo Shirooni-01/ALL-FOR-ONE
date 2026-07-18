@@ -1,0 +1,50 @@
+[Unit]
+Description=ONE FOR ALL Flask Application
+After=network.target
+
+[Service]
+# User and group to run the service as
+User=www-data
+Group=www-data
+
+# Working directory
+WorkingDirectory=/path/to/ONE FOR ALL
+
+# Environment variables
+Environment="FLASK_ENV=production"
+Environment="FLASK_HOST=127.0.0.1"
+Environment="FLASK_PORT=8000"
+Environment="PYTHONUNBUFFERED=1"
+
+# Load environment variables from .env file
+EnvironmentFile=/path/to/ONE FOR ALL/.env
+
+# Start command
+ExecStart=/path/to/ONE FOR ALL/.venv/bin/gunicorn \
+    --workers 4 \
+    --worker-class sync \
+    --worker-tmp-dir /dev/shm \
+    --bind 127.0.0.1:8000 \
+    --timeout 30 \
+    --access-logfile /path/to/ONE FOR ALL/logs/gunicorn_access.log \
+    --error-logfile /path/to/ONE FOR ALL/logs/gunicorn_error.log \
+    --log-level info \
+    wsgi:app
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Process limits
+LimitNOFILE=65535
+LimitNPROC=65535
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Startup timeout
+TimeoutStartSec=30
+
+[Install]
+WantedBy=multi-user.target
