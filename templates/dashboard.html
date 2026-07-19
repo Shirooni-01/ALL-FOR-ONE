@@ -5,454 +5,463 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>ONE FOR ALL</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="bg1"></div>
-<div class="bg2"></div>
+    <div class="bg1"></div>
+    <div class="bg2"></div>
 
-<div class="container">
+    <div class="container">
 
-    <!-- =========================
+        <!-- =========================
             SIDEBAR
     ========================== -->
 
-    <aside class="sidebar">
+        <aside class="sidebar">
 
-        <div class="logo">
+            <div class="logo">
 
-            <i class="fa-solid fa-cube"></i>
+                <i class="fa-solid fa-cube"></i>
 
-            <h2>
+                <h2>
 
-                ONE FOR ALL
+                    ONE FOR ALL
 
-            </h2>
-
-        </div>
-
-        <nav>
-
-            <a href="/" class="active">
-
-                <i class="fa-solid fa-house"></i>
-
-                Dashboard
-
-            </a>
-
-            <a href="/notes">
-
-                <i class="fa-solid fa-note-sticky"></i>
-
-                Notes
-
-            </a>
-
-            <a href="/ai">
-
-                <i class="fa-solid fa-robot"></i>
-
-                AI Chat
-
-            </a>
-
-            <a href="/quiz">
-
-                <i class="fa-solid fa-graduation-cap"></i>
-
-                Quiz
-
-            </a>
-
-            <a href="/password">
-
-                <i class="fa-solid fa-key"></i>
-
-                Password
-
-            </a>
-
-            <a href="/qr">
-
-                <i class="fa-solid fa-qrcode"></i>
-
-                QR Generator
-
-            </a>
-
-            <a href="/unit">
-
-                <i class="fa-solid fa-ruler"></i>
-
-                Unit Converter
-
-            </a>
-
-            <a href="/text">
-
-                <i class="fa-solid fa-font"></i>
-
-                Text Utilities
-
-            </a>
-
-            <a href="/logout">
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                Logout
-
-            </a>
-
-        </nav>
-
-    </aside>
-
-
-
-    <!-- =========================
-            MAIN
-    ========================== -->
-
-    <main class="content">
-
-        <!-- Header -->
-
-        <header class="topbar">
-
-            <div>
-
-                <h1>
-
-                    Welcome Back 👋
-
-                </h1>
-
-                <p>
-
-                    Your personal productivity workspace.
-
-                </p>
+                </h2>
 
             </div>
 
-            <div class="search-box">
+            <nav>
 
-                <h2 class="emoji"> {{ emoji }}</h2>
+                <a href="/" class="active">
 
-                <h2 id="searchInput"> {{ user_name }}</h2>
+                    <i class="fa-solid fa-house"></i>
 
-            </div>
+                    Dashboard
 
-        </header>
+                </a>
 
-
-        <!-- =========================
-            PRODUCTIVITY
-        ========================== -->
-
-        <section>
-
-            <h2 class="section-title">
-
-                Productivity
-
-            </h2>
-
-            <div class="apps-grid">
-
-                <a href="/notes" class="app-card">
+                <a href="/notes">
 
                     <i class="fa-solid fa-note-sticky"></i>
 
-                    <h3>
-
-                        Notes
-
-                    </h3>
-
-                    <p>
-
-                        Create, edit and search notes.
-
-                    </p>
+                    Notes
 
                 </a>
 
-                <a href="/ai" class="app-card">
+                <a href="/ai">
 
                     <i class="fa-solid fa-robot"></i>
 
-                    <h3>
-
-                        AI Chat
-
-                    </h3>
-
-                    <p>
-
-                        Chat with Gemini AI.
-
-                    </p>
+                    AI Chat
 
                 </a>
 
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-            UTILITIES
-        ========================== -->
-
-        <section>
-
-            <h2 class="section-title">
-
-                Utilities
-
-            </h2>
-
-            <div class="apps-grid">
-
-                <a href="/password" class="app-card">
-
-                    <i class="fa-solid fa-key"></i>
-
-                    <h3>
-
-                        Password Generator
-
-                    </h3>
-
-                    <p>
-
-                        Generate secure passwords.
-
-                    </p>
-
-                </a>
-
-                <a href="/qr" class="app-card">
-
-                    <i class="fa-solid fa-qrcode"></i>
-
-                    <h3>
-
-                        QR Generator
-
-                    </h3>
-
-                    <p>
-
-                        Generate and scan QR codes.
-
-                    </p>
-
-                </a>
-
-                <a href="/unit" class="app-card">
-
-                    <i class="fa-solid fa-ruler"></i>
-
-                    <h3>
-
-                        Unit Converter
-
-                    </h3>
-
-                    <p>
-
-                        Convert units instantly.
-
-                    </p>
-
-                </a>
-
-                <a href="/text" class="app-card">
-
-                    <i class="fa-solid fa-font"></i>
-
-                    <h3>
-
-                        Text Utilities
-
-                    </h3>
-
-                    <p>
-
-                        Powerful text editing tools.
-
-                    </p>
-
-                </a>
-
-                                <a href="/quiz" class="app-card">
+                <a href="/quiz">
 
                     <i class="fa-solid fa-graduation-cap"></i>
 
-                    <h3>
-
-                        Quiz Master
-
-                    </h3>
-
-                    <p>
-
-                        Practice quizzes and test your knowledge.
-
-                    </p>
+                    Quiz
 
                 </a>
 
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-                RECENT ACTIVITY
-        ========================== -->
-
-        <section>
-
-            <h2 class="section-title">
-
-                Recent Activity
-
-            </h2>
-
-            <div class="activity-card">
-
-                <div class="activity">
-
-                    <i class="fa-solid fa-note-sticky"></i>
-
-                    <div>
-
-                        <h4>
-
-                            Notes
-
-                        </h4>
-
-                        <p>
-
-                            Continue writing your notes.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="activity">
-
-                    <i class="fa-solid fa-robot"></i>
-
-                    <div>
-
-                        <h4>
-
-                            AI Chat
-
-                        </h4>
-
-                        <p>
-
-                            Ask Gemini anything.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="activity">
+                <a href="/password">
 
                     <i class="fa-solid fa-key"></i>
 
-                    <div>
+                    Password
 
-                        <h4>
+                </a>
 
-                            Password Generator
-
-                        </h4>
-
-                        <p>
-
-                            Generate a secure password.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="activity">
+                <a href="/qr">
 
                     <i class="fa-solid fa-qrcode"></i>
 
-                    <div>
+                    QR Generator
 
-                        <h4>
+                </a>
 
-                            QR Generator
+                <a href="/unit">
 
-                        </h4>
+                    <i class="fa-solid fa-ruler"></i>
 
-                        <p>
+                    Unit Converter
 
-                            Create or scan a QR code.
+                </a>
 
-                        </p>
+                <a href="/text">
 
-                    </div>
+                    <i class="fa-solid fa-font"></i>
+
+                    Text Utilities
+
+                </a>
+
+                <a href="/logout">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Logout
+
+                </a>
+
+            </nav>
+
+        </aside>
+
+
+
+        <!-- =========================
+            MAIN
+    ========================== -->
+
+        <main class="content">
+
+            <!-- Header -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1>
+
+                        Welcome Back 👋
+
+                    </h1>
+
+                    <p>
+
+                        Your personal productivity workspace.
+
+                    </p>
 
                 </div>
 
-            </div>
+                <div class="search-box">
 
-        </section>
+                    <h2 class="emoji"> {{ emoji }}</h2>
 
-        <!-- =========================
+                    <h2 id="searchInput"> {{ user_name }}</h2>
+
+                </div>
+
+            </header>
+
+
+            <!-- =========================
+            PRODUCTIVITY
+        ========================== -->
+
+            <section>
+
+                <h2 class="section-title">
+
+                    Productivity
+
+                </h2>
+
+                <div class="apps-grid">
+
+                    <a href="/notes" class="app-card">
+
+                        <i class="fa-solid fa-note-sticky"></i>
+
+                        <h3>
+
+                            Notes
+
+                        </h3>
+
+                        <p>
+
+                            Create, edit and search notes.
+
+                        </p>
+
+                    </a>
+
+                    <a href="/ai" class="app-card">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                        <h3>
+
+                            AI Chat
+
+                        </h3>
+
+                        <p>
+
+                            Chat with Gemini AI.
+
+                        </p>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+            UTILITIES
+        ========================== -->
+
+            <section>
+
+                <h2 class="section-title">
+
+                    Utilities
+
+
+                </h2>
+
+                <div class="apps-grid">
+
+                    <a href="/password" class="app-card">
+
+                        <i class="fa-solid fa-key"></i>
+
+                        <h3>
+
+                            Password Generator
+
+                        </h3>
+
+                        <p>
+
+                            Generate secure passwords.
+
+                        </p>
+
+                    </a>
+
+                    <a href="/qr" class="app-card">
+
+                        <i class="fa-solid fa-qrcode"></i>
+
+                        <h3>
+
+                            QR Generator
+
+                        </h3>
+
+                        <p>
+
+                            Generate and scan QR codes.
+
+                        </p>
+
+                    </a>
+
+                    <a href="/unit" class="app-card">
+
+                        <i class="fa-solid fa-ruler"></i>
+
+                        <h3>
+
+                            Unit Converter
+
+                        </h3>
+
+                        <p>
+
+                            Convert units instantly.
+
+                        </p>
+
+                    </a>
+
+                    <a href="/text" class="app-card">
+
+                        <i class="fa-solid fa-font"></i>
+
+                        <h3>
+
+                            Text Utilities
+
+                        </h3>
+
+                        <p>
+
+                            Powerful text editing tools.
+
+                        </p>
+
+                    </a>
+
+                    <a href="/quiz" class="app-card">
+
+                        <i class="fa-solid fa-graduation-cap"></i>
+
+                        <h3>
+
+                            Quiz Master
+
+                        </h3>
+
+                        <p>
+
+                            Practice quizzes and test your knowledge.
+
+                        </p>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =========================
+                RECENT ACTIVITY
+        ========================== -->
+
+            <section>
+
+                <h2 class="section-title">
+
+                    Recent Activity
+
+                </h2>
+
+                <div class="activity-card">
+
+                    <a href="/notes">
+
+                        <div class="activity">
+
+                            <i class="fa-solid fa-note-sticky"></i>
+
+                            <div>
+
+                                <h4>
+
+                                    Notes
+
+                                </h4>
+
+                                <p>
+
+                                    Continue writing your notes.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <a href='ai'>
+
+                        <div class="activity">
+
+                            <i class="fa-solid fa-robot"></i>
+
+                            <div>
+
+                                <h4>
+
+                                    AI Chat
+
+                                </h4>
+
+                                <p>
+
+                                    Ask Gemini anything.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    <a href='password'>
+                        <div class="activity">
+
+                            <i class="fa-solid fa-key"></i>
+
+                            <div>
+
+                                <h4>
+
+                                    Password Generator
+
+                                </h4>
+
+                                <p>
+
+                                    Generate a secure password.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    <a href="qr">
+                        <div class="activity">
+                            <i class="fa-solid fa-qrcode"></i>
+
+                            <div>
+
+                                <h4>
+
+                                    QR Generator
+
+                                </h4>
+
+                                <p>
+
+                                    Create or scan a QR code.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                </div>
+                </a>
+
+            </section>
+
+            <!-- =========================
                 FOOTER
         ========================== -->
 
-        <footer>
+            <footer>
 
-            <p>
+                <p>
 
-                ONE FOR ALL • Built with ❤️ By Ashutosh 
+                    ONE FOR ALL • Built with ❤️ By Ashutosh
 
-            </p>
+                </p>
 
-        </footer>
+            </footer>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 
 
 
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 </body>
 
