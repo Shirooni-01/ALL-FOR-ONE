@@ -7,8 +7,8 @@
     <title>Notes | One For All</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/notes.css') }}">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/typography.css') }}">
 </head>
 
 <body>
@@ -58,11 +58,7 @@
 
         <form method="POST" id="searchform" class="glass-card search-form">
 
-            <input
-                type="text"
-                id="search"
-                name="search"
-                placeholder="Search note by title...">
+            <input type="text" id="search" name="search" placeholder="Search note by title...">
 
             <button id="searchsubmit" type="submit">
                 Search
@@ -79,19 +75,9 @@
 
             <h2>Create New Note</h2>
 
-            <input
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Note Title"
-                required>
+            <input type="text" name="title" id="title" placeholder="Note Title" required>
 
-            <textarea
-                name="note"
-                id="note"
-                rows="8"
-                placeholder="Write your note here..."
-                required></textarea>
+            <textarea name="note" id="note" rows="8" placeholder="Write your note here..." required></textarea>
 
             <button id="submit" type="submit">
                 Save Note
@@ -209,9 +195,7 @@
 
                     <div class="actions">
 
-                        <button
-                            type="button"
-                            class="editnote">
+                        <button type="button" class="editnote">
 
                             <i class="fa-solid fa-pen"></i>
 
@@ -219,20 +203,11 @@
 
                         </button>
 
-                        <form
-                            method="POST"
-                            class="deletenote_form">
+                        <form method="POST" class="deletenote_form">
 
-                            <input
-                                type="hidden"
-                                name="index_del"
-                                value="{{ loop.index0 }}">
+                            <input type="hidden" name="index_del" value="{{ loop.index0 }}">
 
-                            <button
-                                type="submit"
-                                class="deletenote"
-                                name="delete"
-                                value="Delete">
+                            <button type="submit" class="deletenote" name="delete" value="Delete">
 
                                 <i class="fa-solid fa-trash"></i>
 
@@ -250,28 +225,15 @@
 
                     <!-- Edit -->
 
-                    <form
-                        method="POST"
-                        class="editnote_form">
+                    <form method="POST" class="editnote_form">
 
-                        <input
-                            type="hidden"
-                            name="index"
-                            value="{{ loop.index0 }}">
+                        <input type="hidden" name="index" value="{{ loop.index0 }}">
 
-                        <input
-                            type="text"
-                            name="editedtitle"
-                            placeholder="New Title">
+                        <input type="text" name="editedtitle" placeholder="New Title">
 
-                        <textarea
-                            name="editednote"
-                            rows="6"
-                            placeholder="Update note..."></textarea>
+                        <textarea name="editednote" rows="6" placeholder="Update note..."></textarea>
 
-                        <button
-                            class="submiteditednote"
-                            type="submit">
+                        <button class="submiteditednote" type="submit">
 
                             Save Changes
 
